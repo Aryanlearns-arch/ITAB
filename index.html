@@ -1,1 +1,456 @@
-<doctype html>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Project Report: IT and its Application in Business</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Chosen Palette: Slate & Blue
+    Application Structure Plan: A single-page application with a fixed header for navigation. The content is divided into three main thematic sections (Word, Excel, PowerPoint) corresponding to the report's chapters. This structure is intuitive, allowing users to explore each software's capabilities in a focused manner. Interactive modules within each section are designed to demonstrate key concepts (e.g., a dynamic text box for Mail Merge, a slider-controlled chart for Excel's What-If Analysis) to make the learning process more engaging and effective than static text. Gemini API features are added to each section to provide AI-powered content generation and analysis, enhancing the educational value.
+    Visualization & Content Choices: 
+    - Word/Mail Merge: Goal: Demonstrate conditional logic and AI content generation. Method: Interactive text area updated by a dropdown, with a new Gemini-powered "Suggest Content" feature. Justification: Shows both rule-based automation and creative AI assistance.
+    - Excel/What-If Analysis: Goal: Explain forecasting and AI data analysis. Method: Chart.js bar chart linked to a slider, with a new Gemini-powered "Analyze Data" feature. Justification: Visually connects input variables to output and demonstrates AI's ability to interpret data and suggest visualizations.
+    - Excel/Dashboard Slicers: Goal: Simulate data filtering. Method: Chart.js pie chart updated by filter buttons. Justification: Mimics the core interactive function of a real dashboard.
+    - PowerPoint/Animations: Goal: Show animation sequencing and AI outline generation. Method: CSS transitions on mock slide elements, with a new Gemini-powered "Generate Outline" feature. Justification: Demonstrates visual concepts and AI's utility in structuring presentations.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gemini-output {
+            background-color: #e2e8f0; /* slate-200 */
+            border-left: 4px solid #3b82f6; /* blue-500 */
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .loader {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-slate-900">ITAB Project ✨</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#word" class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Microsoft Word</a>
+                        <a href="#excel" class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Microsoft Excel</a>
+                        <a href="#powerpoint" class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Microsoft PowerPoint</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Hero Section -->
+        <section class="text-center py-12 md:py-16 section-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Information Technology and its Application in Business</h1>
+            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">An interactive exploration of the Microsoft Office Suite's role in the modern workplace, based on the project report by Afsin Ahmed Sk.</p>
+            <div class="mt-8 text-left bg-white p-6 rounded-lg shadow-md max-w-md mx-auto border border-slate-200">
+                <h3 class="font-bold text-lg mb-2 text-slate-800">Student Details:</h3>
+                <p><span class="font-semibold">Name:</span> Afsin Ahmed Sk</p>
+                <p><span class="font-semibold">Course:</span> Bachelor of Commerce (B.Com)</p>
+                <p><span class="font-semibold">College:</span> Uluberia College</p>
+                <p><span class="font-semibold">University:</span> University of Calcutta</p>
+            </div>
+        </section>
+
+        <!-- Microsoft Word Section -->
+        <section id="word" class="py-16 md:py-20 border-t border-slate-200 section-fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Chapter 1: Microsoft Word</h2>
+                <p class="mt-4 text-lg text-slate-600">Explore how Microsoft Word transcends basic word processing with features for personalization, branding, and now, AI-powered content creation.</p>
+            </div>
+            <div class="mt-12 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:gap-12">
+                <!-- Mail Merge Demo -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 flex flex-col">
+                    <h3 class="font-semibold text-xl mb-3">1.1 Advanced Mail Merge</h3>
+                    <p class="text-slate-600 mb-4">Use conditional rules to personalize documents. Then, use the Gemini API to generate professional content for the letter body.</p>
+                    <div class="space-y-4 flex-grow">
+                        <label for="mailMergeTopic" class="block text-sm font-medium text-slate-700">Letter Topic:</label>
+                        <input type="text" id="mailMergeTopic" placeholder="e.g., Marketing email for a new product" class="w-full p-2 border border-slate-300 rounded-md shadow-sm">
+                        <button id="geminiWordBtn" onclick="generateWordContent()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2">
+                            ✨ Suggest Content
+                        </button>
+                        <div class="bg-slate-100 p-4 rounded-md border border-slate-200 min-h-[150px]">
+                            <p class="font-semibold">Generated Letter Content:</p>
+                            <div id="mailMergeOutput" class="text-slate-700 mt-2 transition-opacity duration-300">Select a topic and click suggest...</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Styles & Templates Demo -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200">
+                    <h3 class="font-semibold text-xl mb-3">1.2 Brand Consistency with Styles</h3>
+                    <p class="text-slate-600 mb-4">Styles ensure documents are professional and consistent. Apply different styles to the text below to see the effect.</p>
+                    <div id="styleDemoText" class="p-4 bg-slate-100 rounded-md border border-slate-200 transition-all duration-300">
+                        <h4 class="text-lg font-bold">Report Title</h4>
+                        <p class="mt-2">This is a paragraph of body text. Applying styles ensures that all similar elements have uniform formatting, reinforcing brand identity.</p>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <button onclick="applyStyle('default')" class="bg-slate-200 text-slate-800 px-3 py-1 rounded-md text-sm">Default</button>
+                        <button onclick="applyStyle('formal')" class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Formal Report</button>
+                        <button onclick="applyStyle('creative')" class="bg-purple-500 text-white px-3 py-1 rounded-md text-sm">Creative Brief</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Microsoft Excel Section -->
+        <section id="excel" class="py-16 md:py-20 border-t border-slate-200 section-fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Chapter 2: Microsoft Excel</h2>
+                <p class="mt-4 text-lg text-slate-600">Discover how Excel transforms raw data into actionable business intelligence through analysis, forecasting, and AI-powered insights.</p>
+            </div>
+            <div class="mt-12 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:gap-12">
+                <!-- What-If Analysis Demo -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200">
+                    <h3 class="font-semibold text-xl mb-3">2.4 What-If Analysis: Profit Forecast</h3>
+                    <p class="text-slate-600 mb-4">Use tools like Goal Seek to forecast outcomes. Adjust the units sold with the slider to see how it impacts profit.</p>
+                    <div class="chart-container">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                    <div class="mt-4 space-y-3">
+                        <div>
+                            <label for="unitsSold" class="block text-sm font-medium text-slate-700">Units Sold: <span id="unitsSoldValue" class="font-bold">150</span></label>
+                            <input type="range" id="unitsSold" min="0" max="500" value="150" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+                <!-- Dashboard Slicers & AI Analysis Demo -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 flex flex-col">
+                    <h3 class="font-semibold text-xl mb-3">2.5 Interactive Dashboard & AI Analysis</h3>
+                    <p class="text-slate-600 mb-4">Filter sales data using slicers, then use the Gemini API to analyze the data and suggest the best visualization.</p>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-medium text-slate-700 mb-2">Filter by Region:</p>
+                        <div id="slicer-buttons" class="flex flex-wrap gap-2">
+                             <button onclick="filterSales('All')" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm">All Regions</button>
+                             <button onclick="filterSales('North')" class="bg-slate-200 text-slate-800 px-3 py-1 rounded-md text-sm">North</button>
+                             <button onclick="filterSales('South')" class="bg-slate-200 text-slate-800 px-3 py-1 rounded-md text-sm">South</button>
+                             <button onclick="filterSales('East')" class="bg-slate-200 text-slate-800 px-3 py-1 rounded-md text-sm">East</button>
+                             <button onclick="filterSales('West')" class="bg-slate-200 text-slate-800 px-3 py-1 rounded-md text-sm">West</button>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4">
+                        <button id="geminiExcelBtn" onclick="analyzeSalesData()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2">
+                           ✨ Analyze Data & Suggest Chart
+                        </button>
+                        <div id="excelAnalysisOutput" class="gemini-output hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Microsoft PowerPoint Section -->
+        <section id="powerpoint" class="py-16 md:py-20 border-t border-slate-200 section-fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Chapter 3: Microsoft PowerPoint</h2>
+                <p class="mt-4 text-lg text-slate-600">Learn how to craft compelling visual narratives and accelerate your workflow with AI-generated presentation outlines.</p>
+            </div>
+            <div class="mt-12 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:gap-12">
+                <!-- AI Outline Generator -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 flex flex-col">
+                    <h3 class="font-semibold text-xl mb-3">3.1 AI-Powered Presentation Outlines</h3>
+                    <p class="text-slate-600 mb-4">Stuck on how to start? Enter a topic and let the Gemini API generate a structured presentation outline for you.</p>
+                    <div class="space-y-4 flex-grow">
+                        <label for="presentationTopic" class="block text-sm font-medium text-slate-700">Presentation Topic:</label>
+                        <input type="text" id="presentationTopic" placeholder="e.g., Quarterly Business Review" class="w-full p-2 border border-slate-300 rounded-md shadow-sm">
+                        <button id="geminiPptBtn" onclick="generatePptOutline()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2">
+                            ✨ Generate Outline
+                        </button>
+                        <div id="pptOutlineOutput" class="gemini-output hidden"></div>
+                    </div>
+                </div>
+                <!-- Animations Demo -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200">
+                    <h3 class="font-semibold text-xl mb-3">3.2 Enhancing Flow with Animations</h3>
+                    <p class="text-slate-600 mb-4">Animations can guide audience attention. Click the button to reveal the bullet points one by one.</p>
+                    <div class="w-full h-48 bg-slate-800 text-white rounded-md p-4 flex flex-col justify-center">
+                        <h4 class="text-xl font-bold">Key Objectives</h4>
+                        <ul class="list-disc list-inside mt-2 space-y-2">
+                            <li class="animation-item opacity-0">Increase market share</li>
+                            <li class="animation-item opacity-0">Improve customer satisfaction</li>
+                            <li class="animation-item opacity-0">Launch new product line</li>
+                        </ul>
+                    </div>
+                    <button onclick="playAnimation()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium">Play Animation</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            createProfitChart();
+            createSalesChart();
+            
+            const sections = document.querySelectorAll('.section-fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // --- Gemini API Call Helper ---
+        async function callGemini(prompt, buttonId, outputElementId) {
+            const button = document.getElementById(buttonId);
+            const outputElement = document.getElementById(outputElementId);
+
+            const originalButtonContent = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<div class="loader"></div><span>Generating...</span>';
+            outputElement.classList.add('hidden');
+
+            try {
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    outputElement.textContent = text;
+                    outputElement.classList.remove('hidden');
+                } else {
+                    outputElement.textContent = 'Error: Received an empty or invalid response from the API.';
+                    outputElement.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Gemini API Error:', error);
+                outputElement.textContent = `An error occurred: ${error.message}. Please check the console for details.`;
+                outputElement.classList.remove('hidden');
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalButtonContent;
+            }
+        }
+
+        // --- Word Section Logic ---
+        function applyStyle(styleName) {
+            const demoText = document.getElementById('styleDemoText');
+            const title = demoText.querySelector('h4');
+            const paragraph = demoText.querySelector('p');
+            
+            title.className = 'text-lg font-bold';
+            paragraph.className = 'mt-2';
+
+            if (styleName === 'formal') {
+                title.classList.add('text-slate-900', 'font-serif');
+                paragraph.classList.add('text-slate-700', 'font-serif');
+            } else if (styleName === 'creative') {
+                title.classList.add('text-purple-700', 'font-sans');
+                paragraph.classList.add('text-slate-600', 'font-sans');
+            }
+        }
+
+        async function generateWordContent() {
+            const topic = document.getElementById('mailMergeTopic').value;
+            if (!topic) {
+                alert('Please enter a topic for the letter.');
+                return;
+            }
+            const prompt = `Write a short, professional business letter body based on the following topic: "${topic}". Make it suitable for a mail merge.`;
+            await callGemini(prompt, 'geminiWordBtn', 'mailMergeOutput');
+        }
+
+        // --- Excel Section Logic ---
+        let profitChartInstance;
+        const pricePerUnit = 50;
+        const fixedCosts = 5000;
+        const variableCostPerUnit = 20;
+
+        function createProfitChart() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            const initialUnits = 150;
+            profitChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue', 'Costs', 'Profit'],
+                    datasets: [{
+                        label: 'Amount (in ₹)',
+                        data: [
+                            initialUnits * pricePerUnit,
+                            fixedCosts + (initialUnits * variableCostPerUnit),
+                            (initialUnits * pricePerUnit) - (fixedCosts + (initialUnits * variableCostPerUnit))
+                        ],
+                        backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(239, 68, 68, 0.7)', 'rgba(22, 163, 74, 0.7)'],
+                        borderColor: ['rgba(59, 130, 246, 1)', 'rgba(239, 68, 68, 1)', 'rgba(22, 163, 74, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, title: { display: true, text: 'Business Profit Calculation' } },
+                    scales: { y: { beginAtZero: true, ticks: { callback: function(value) { return '₹' + value; } } } }
+                }
+            });
+        }
+
+        document.getElementById('unitsSold').addEventListener('input', (e) => {
+            const units = parseInt(e.target.value);
+            document.getElementById('unitsSoldValue').textContent = units;
+            const revenue = units * pricePerUnit;
+            const costs = fixedCosts + (units * variableCostPerUnit);
+            const profit = revenue - costs;
+            
+            profitChartInstance.data.datasets[0].data = [revenue, costs, profit];
+            profitChartInstance.update();
+        });
+
+        let salesChartInstance;
+        let currentSalesRegion = 'All';
+        const salesData = {
+            'All': { labels: ['Laptops', 'Monitors', 'Keyboards', 'Mice'], data: [120, 90, 250, 300] },
+            'North': { labels: ['Laptops', 'Monitors', 'Keyboards', 'Mice'], data: [40, 30, 80, 100] },
+            'South': { labels: ['Laptops', 'Monitors', 'Keyboards', 'Mice'], data: [30, 20, 60, 70] },
+            'East': { labels: ['Laptops', 'Monitors', 'Keyboards', 'Mice'], data: [25, 25, 50, 60] },
+            'West': { labels: ['Laptops', 'Monitors', 'Keyboards', 'Mice'], data: [25, 15, 60, 70] },
+        };
+
+        function createSalesChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            salesChartInstance = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: salesData.All.labels,
+                    datasets: [{
+                        label: 'Sales by Product',
+                        data: salesData.All.data,
+                        backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(34, 197, 94, 0.8)', 'rgba(249, 115, 22, 0.8)', 'rgba(139, 92, 246, 0.8)'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' }, title: { display: true, text: 'Product Sales for All Regions' } }
+                }
+            });
+        }
+        
+        function filterSales(region) {
+            currentSalesRegion = region;
+            const data = salesData[region];
+            salesChartInstance.data.datasets[0].data = data.data;
+            salesChartInstance.options.plugins.title.text = `Product Sales for ${region} Region`;
+            salesChartInstance.update();
+            
+            const buttons = document.querySelectorAll('#slicer-buttons button');
+            buttons.forEach(button => {
+                button.classList.remove('bg-blue-600', 'text-white');
+                button.classList.add('bg-slate-200', 'text-slate-800');
+                if (button.textContent.includes(region)) {
+                    button.classList.add('bg-blue-600', 'text-white');
+                    button.classList.remove('bg-slate-200', 'text-slate-800');
+                }
+            });
+        }
+
+        async function analyzeSalesData() {
+            const currentData = salesData[currentSalesRegion];
+            const dataString = currentData.labels.map((label, index) => `${label}: ${currentData.data[index]}`).join(', ');
+            const prompt = `Analyze the following sales data for the "${currentSalesRegion}" region: ${dataString}. What is the key insight from this data, and what is the most appropriate chart type (e.g., Bar, Line, Pie) to visualize it? Provide a brief justification for your chart choice.`;
+            await callGemini(prompt, 'geminiExcelBtn', 'excelAnalysisOutput');
+        }
+
+        // --- PowerPoint Section Logic ---
+        async function generatePptOutline() {
+            const topic = document.getElementById('presentationTopic').value;
+            if (!topic) {
+                alert('Please enter a presentation topic.');
+                return;
+            }
+            const prompt = `Create a professional presentation outline for the topic: "${topic}". Include a title slide and a list of 5-7 key slide topics that would form a logical presentation flow.`;
+            await callGemini(prompt, 'geminiPptBtn', 'pptOutlineOutput');
+        }
+
+        let currentAnimationStep = 0;
+        function playAnimation() {
+            const items = document.querySelectorAll('.animation-item');
+            if (currentAnimationStep >= items.length) {
+                items.forEach(item => { item.style.transition = 'none'; item.style.opacity = 0; });
+                currentAnimationStep = 0;
+                setTimeout(playAnimation, 100);
+                return;
+            }
+            items[currentAnimationStep].style.transition = 'opacity 0.5s ease-in-out';
+            items[currentAnimationStep].style.opacity = 1;
+            currentAnimationStep++;
+        }
+
+    </script>
+</body>
+</html>
+
